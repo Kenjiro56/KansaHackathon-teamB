@@ -1,8 +1,6 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,13 +14,6 @@ func main() {
 			"message": "Hello, World!!!waiwai",
 		})
 	})
-
-	// ルートハンドラの定義
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", nil) // index.htmlというテンプレートをレンダリング
-	})
-	// テンプレートの設定
-	router.LoadHTMLGlob("templates/*") // templatesディレクトリ内のHTMLファイルを読み込む
 
 	router.GET("/openai", func(c *gin.Context) {
 
