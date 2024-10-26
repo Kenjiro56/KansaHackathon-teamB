@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,11 +17,28 @@ func main() {
 		})
 	})
 
+	// ルートハンドラの定義
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", nil) // index.htmlというテンプレートをレンダリング
+	})
+	// テンプレートの設定
+	router.LoadHTMLGlob("templates/*") // templatesディレクトリ内のHTMLファイルを読み込む
+
 	router.GET("/openai", func(c *gin.Context) {
+
+		// ユーザーからの入力を取得
+		userInput := c.Query("input") // クエリパラメータから取得
+
+		// 入力がなかった場合のエラーハンドリング
+		if userInput == "" {
+			c.JSON(400, gin.H{"error": "入力が必要です。"})
+			return
+		}
+
 		// メッセージの準備
 		messages := []ChatMessage{
 			{Role: "system", Content: "あなたは日本語を流暢に話すAIです。"}, // システムメッセージで言語指定
-			{Role: "user", Content: "ジョークを教えてください。"},
+			{Role: "user", Content: userInput},
 		}
 
 		// OpenAI APIへのリクエスト
