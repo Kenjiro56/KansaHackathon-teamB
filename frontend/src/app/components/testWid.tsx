@@ -26,7 +26,7 @@ const ApiButtons: React.FC = () => {
           const response = await fetch('http://localhost:8080/insert', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ data: inputData }), // 入力されたデータを送信
+              body: JSON.stringify({ message: inputData }), // 入力されたデータを送信
           });
           const data = await response.json();
           console.log(data); // レスポンスデータを確認
