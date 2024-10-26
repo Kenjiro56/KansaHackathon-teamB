@@ -15,6 +15,11 @@ func main() {
 		log.Fatal("Failed to connect to database:", err)
 	}
 
+	// マイグレーションを実行
+	if err := db.Migrate(); err != nil {
+		log.Fatal("Failed to migrate database:", err)
+	}
+
 	// Ginフレームワークのデフォルトの設定を使用してルータを作成
 	router := gin.Default()
 	routes.DefineRoutes(router)
