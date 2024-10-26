@@ -13,5 +13,6 @@ func DefineRoutes(r gin.IRouter) {
 		auth.POST("/signup", controller.CreateUser)
 		auth.GET("/allusers", controller.GetUsers)
 		auth.GET("/user/:id", controller.GetUser)
+		auth.DELETE("/deleteuser/:id", controller.DeleteUser)
 	}
 }

@@ -39,3 +39,12 @@ func GetUser(c *gin.Context) { //ユーザーの検索
 	}
 	c.JSON(http.StatusOK, user)
 }
+
+func DeleteUser(c *gin.Context) {
+	id := c.Param("id")
+	if err := db.DB.Delete(&models.User{}, id).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "User deleted"})
+}
