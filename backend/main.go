@@ -18,7 +18,8 @@ func main() {
 	router.GET("/openai", func(c *gin.Context) {
 		// メッセージの準備
 		messages := []ChatMessage{
-			{Role: "user", Content: "Tell me a joke."},
+			{Role: "system", Content: "あなたは日本語を流暢に話すAIです。"}, // システムメッセージで言語指定
+			{Role: "user", Content: "ジョークを教えてください。"},
 		}
 
 		// OpenAI APIへのリクエスト
