@@ -16,14 +16,20 @@ func main() {
 	})
 
 	router.GET("/openai", func(c *gin.Context) {
+		// メッセージの準備
 		messages := []ChatMessage{
 			{Role: "user", Content: "Tell me a joke."},
 		}
+
+		// OpenAI APIへのリクエスト
 		response, err := OpenAIAPI("gpt-3.5-turbo", messages) // 適切なモデルを指定
+
+		// エラーハンドリング
 		if err != nil {
 			c.JSON(500, gin.H{"error": err.Error()})
 			return
 		}
+		// 正常時
 		c.JSON(200, gin.H{"response": response})
 	})
 
