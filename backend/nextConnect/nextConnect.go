@@ -30,6 +30,7 @@ func NextConnect() *gin.Engine {
 		})
 	})
 
+	// 追加用のエンドポイント
 	connector.POST("/inserttest", func(ctx *gin.Context) {
 		type Message struct {
 			Message string `json:"message"`
@@ -44,6 +45,7 @@ func NextConnect() *gin.Engine {
 			return
 		}
 
+		// ここにデータベース追加系書くとグッド
 		fmt.Println(req.Message)
 
 		ctx.JSON(201, "Success")
