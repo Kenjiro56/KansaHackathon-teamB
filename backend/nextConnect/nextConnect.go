@@ -22,22 +22,24 @@ func NextConnect() *gin.Engine {
 		cors.Next()
 	})
 
+	// 上記は一旦放置（nextからapiを叩けるようにする）
+
 	// test用のエンドポイント
 	// jsonの参照
-	connector.GET("/test", func(c *gin.Context) {
+	connector.GET("/select", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Hello, World!!!waiwai2",
 		})
+		fmt.Println("Hello, World!!!waiwai2")
 	})
 
 	// 追加用のエンドポイント
-	connector.POST("/inserttest", func(ctx *gin.Context) {
+	connector.POST("/insert", func(ctx *gin.Context) {
 		type Message struct {
 			Message string `json:"message"`
 		}
 
 		var req Message
-
 		if err := ctx.ShouldBindJSON(&req); err != nil {
 			ctx.JSON(400, gin.H{
 				"message": "Bad Request",
