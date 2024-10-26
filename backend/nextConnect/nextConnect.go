@@ -1,6 +1,8 @@
 package nextConnect
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,10 +23,30 @@ func NextConnect() *gin.Engine {
 	})
 
 	// test用のエンドポイント
+	// jsonの参照
 	connector.GET("/test", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Hello, World!!!waiwai2",
 		})
+	})
+
+	connector.POST("/inserttest", func(ctx *gin.Context) {
+		type Message struct {
+			Message string `json:"message"`
+		}
+
+		var req Message
+
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(400, gin.H{
+				"message": "Bad Request",
+			})
+			return
+		}
+
+		fmt.Println(req.Message)
+
+		ctx.JSON(201, "Success")
 	})
 
 	return connector
