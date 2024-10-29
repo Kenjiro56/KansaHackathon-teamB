@@ -24,10 +24,8 @@ func main() {
 
 	// Ginフレームワークのデフォルトの設定を使用してルータを作成
 	router := gin.Default()
-
-	// CORSの設定
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000/"}, // 許可するオリジン
+		AllowOrigins:     []string{"http://localhost:3000"}, // 許可するオリジン
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
