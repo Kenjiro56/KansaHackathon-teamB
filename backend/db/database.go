@@ -97,6 +97,5 @@ func SeedData(db *gorm.DB) error {
 			return fmt.Errorf("failed to insert obj %v: %w", obj.ObjTitle, err)
 		}
 	}
-
 	return nil
 }

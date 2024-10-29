@@ -21,5 +21,6 @@ func DefineRoutes(r gin.IRouter) {
 		obj.POST("/add", controller.CreateObj)
 		obj.GET("/getAll", controller.GetAll)
 		obj.GET(":id", controller.GetSingleObj)
+		obj.DELETE("/deleteObj/:id", controller.DeleteObj)
 	}
 }

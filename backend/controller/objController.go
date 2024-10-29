@@ -41,3 +41,12 @@ func GetSingleObj(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, obj)
 }
+
+func DeleteObj(c *gin.Context) {
+	id := c.Param("id")
+	if err := db.DB.Delete(&models.Obj{}, id).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "User deleted"})
+}
