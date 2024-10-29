@@ -32,6 +32,12 @@ func GetAll(c *gin.Context) {
 }
 
 // preload
-// func GetSingleObj(c *gin.Context) {
-
-// }
+func GetSingleObj(c *gin.Context) {
+	id := c.Param("id")
+	var obj models.Obj
+	if err := db.DB.First(&obj, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Obj not found"})
+		return
+	}
+	c.JSON(http.StatusOK, obj)
+}
