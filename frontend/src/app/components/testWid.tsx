@@ -12,7 +12,8 @@ const ApiButtons: React.FC = () => {
     // データを参照するときのハンドラー
     const handleSelectClick = async () => {
       try {
-        const response = await fetch('http://localhost:8080/select', { method: 'GET' });
+        // const response = await fetch("http://localhost:8080/select", { method: 'GET' });
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "select", { method: 'GET' });
         const data = await response.json();
         console.log(data); // レスポンスデータを確認
       } catch (error) {
@@ -23,7 +24,7 @@ const ApiButtons: React.FC = () => {
     // 何かデータを差し込むときのボタンのクリックハンドラー
     const handleInsertClick = async () => {
         try {
-          const response = await fetch('http://localhost:8080/insert', {
+          const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "insert", {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ message: inputData }), // 入力されたデータを送信

@@ -27,6 +27,8 @@ func NextConnect() *gin.Engine {
 	// test用のエンドポイント
 	// jsonの参照
 	connector.GET("/select", func(c *gin.Context) {
+		fmt.Println("-----------------------------")
+		fmt.Println("insideGETSelect")
 		c.JSON(200, gin.H{
 			"message": "Hello, World!!!waiwai2",
 		})
