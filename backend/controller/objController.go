@@ -9,6 +9,7 @@ import (
 )
 
 func CreateObj(c *gin.Context) { //objの作成
+	// 追加する際にuserが存在するかどうかのチェックを入れたい！！
 	var obj models.Obj
 	if err := c.ShouldBindJSON(&obj); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
