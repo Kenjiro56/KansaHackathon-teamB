@@ -1,33 +1,56 @@
-# 1. ビルドアーティファクト
-/bin/
-/build/
-*.exe
-*.dll
-*.so
-*.dylib
-
-# 2. 依存ファイル
-/vendor/
-
-# 3. 一時ファイルとキャッシュ
-/tmp/
-*.log
-*.out
-
-# 4. IDEやエディタの設定ファイル
-.vscode/
-.idea/
-*.swp
-*~
-
-# 5. Goのテストキャッシュ
-/coverage.out
-*.test
-
-# 6. Docker関連ファイル
-.env
-docker-compose.override.yml
-
-# 7. デバッグやその他の作業用ファイル
-debug.log
+# OS/IDE関連の無視ファイル
 .DS_Store
+Thumbs.db
+*.log
+*.swp
+
+# Node.js関連（Next.jsフロントエンド）
+frontend/node_modules
+frontend/.next
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/out
+frontend/dist
+frontend/coverage
+
+# Next.jsビルドキャッシュ
+frontend/.next/cache
+
+# Docker関連
+docker-compose.override.yml
+*.env
+.env
+
+# Go関連（バックエンド）
+backend/bin/
+backend/tmp/
+backend/.env
+backend/.DS_Store
+backend/coverage/
+backend/*.log
+backend/.cache/
+backend/*.exe
+backend/*.out
+backend/*.test
+backend/*.mod
+backend/*.sum
+
+# Goの依存ファイル（ビルド生成物以外）
+backend/vendor/
+backend/.idea/
+backend/.vscode/
+
+# Goのモジュールキャッシュ（一般的に無視される）
+/go/pkg/
+/go/bin/
+/go/src/
+
+# MacやLinux用の一時ファイル
+**/.DS_Store
+**/._*
+
+# Gitのローカル構成ファイル
+.gitignore

@@ -1,0 +1,36 @@
+# 1. ビルドアーティファクト
+/bin/
+/build/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# 2. 依存ファイル
+/vendor/
+
+# 3. 一時ファイルとキャッシュ
+/tmp/
+*.log
+*.out
+
+# 4. IDEやエディタの設定ファイル
+.vscode/
+.idea/
+*.swp
+*~
+
+# 5. Goのテストキャッシュ
+/coverage.out
+*.test
+
+# 6. Docker関連ファイル
+.env
+docker-compose.override.yml
+
+# 7. デバッグやその他の作業用ファイル
+debug.log
+.DS_Store
+
+# 8. 開発時のmain
+/main
