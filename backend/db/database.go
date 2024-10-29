@@ -34,7 +34,14 @@ func Connect() error {
 }
 
 func Migrate() error {
-	err := DB.AutoMigrate(&models.User{})
+	models := []interface{}{
+		&models.User{},
+		&models.Obj{},
+		&models.Todo{},
+		// migrationしたいModelを記述
+	}
+
+	err := DB.AutoMigrate(models...)
 	if err != nil {
 		return err
 	}
