@@ -26,4 +26,13 @@ func DefineRoutes(r gin.IRouter) {
 		obj.GET(":id", controller.GetSingleObj)
 		obj.DELETE("/deleteObj/:id", controller.DeleteObj)
 	}
+
+	// AI関連のエンドポイント
+	ai := r.Group("/ai")
+	{
+		// 目標に対するフィードバック
+		ai.GET("/goal", controller.GenerateGoalTasks)
+		// 相談内容に対するフィードバック
+		ai.GET("/consultation", controller.ConsultationFeedback)
+	}
 }
