@@ -3,6 +3,7 @@ package db
 import (
 	"KansaiHack-Friday/models"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -46,5 +47,27 @@ func Migrate() error {
 		return err
 	}
 	fmt.Println("Database migrated")
+	return nil
+}
+
+func DropAllTables(db *gorm.DB) error {
+	// PostgreSQLで全テーブルを削除
+	err := db.Exec(`
+			DO $$ DECLARE
+					r RECORD;
+			BEGIN
+					-- publicスキーマ内のすべてのテーブルを削除
+					FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+							EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
+					END LOOP;
+			END $$;
+	`).Error
+
+	if err != nil {
+		log.Fatalf("Failed to drop all tables: %v", err)
+		return err
+	}
+
+	log.Println("All tables dropped successfully")
 	return nil
 }
