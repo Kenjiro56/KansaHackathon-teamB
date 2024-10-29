@@ -19,5 +19,6 @@ func DefineRoutes(r gin.IRouter) {
 	obj := r.Group("/obj")
 	{
 		obj.POST("/add", controller.CreateObj)
+		obj.GET("/getAll", controller.GetAll)
 	}
 }

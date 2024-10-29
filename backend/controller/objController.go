@@ -20,3 +20,18 @@ func CreateObj(c *gin.Context) { //objの作成
 		return
 	}
 }
+
+// default
+func GetAll(c *gin.Context) {
+	var objs []models.Obj
+	if err := db.DB.Find(&objs).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error:": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, objs)
+}
+
+// preload
+// func GetSingleObj(c *gin.Context) {
+
+// }
