@@ -3,7 +3,9 @@ package db
 import (
 	"KansaiHack-Friday/models"
 	"fmt"
+	"log"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
@@ -34,10 +36,66 @@ func Connect() error {
 }
 
 func Migrate() error {
-	err := DB.AutoMigrate(&models.User{})
+	models := []interface{}{
+		&models.User{},
+		&models.Obj{},
+		&models.Todo{},
+		// migrationしたいModelを記述
+	}
+
+	err := DB.AutoMigrate(models...)
 	if err != nil {
 		return err
 	}
 	fmt.Println("Database migrated")
+	return nil
+}
+
+func DropAllTables(db *gorm.DB) error {
+	// PostgreSQLで全テーブルを削除
+	err := db.Exec(`
+			DO $$ DECLARE
+					r RECORD;
+			BEGIN
+					-- publicスキーマ内のすべてのテーブルを削除
+					FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+							EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
+					END LOOP;
+			END $$;
+	`).Error
+
+	if err != nil {
+		log.Fatalf("Failed to drop all tables: %v", err)
+		return err
+	}
+
+	log.Println("All tables dropped successfully")
+	return nil
+}
+
+func SeedData(db *gorm.DB) error {
+	// ダミーユーザーを作成
+	users := []models.User{
+		{UserName: "Alice", Email: "alice@example.com", Password: "password123", CreatedAt: time.Now(), UpdatedAt: time.Now()},
+		{UserName: "Bob", Email: "bob@example.com", Password: "password123", CreatedAt: time.Now(), UpdatedAt: time.Now()},
+	}
+
+	for _, user := range users {
+		if err := db.Create(&user).Error; err != nil {
+			return fmt.Errorf("failed to insert user %v: %w", user.UserName, err)
+		}
+	}
+
+	// ダミーオブジェクトを作成
+	objs := []models.Obj{
+		{UserID: 1, ObjTitle: "First Object", DeleteFlag: false, CreatedAt: time.Now(), UpdatedAt: time.Now()},
+		{UserID: 2, ObjTitle: "Second Object", DeleteFlag: false, CreatedAt: time.Now(), UpdatedAt: time.Now()},
+	}
+
+	for _, obj := range objs {
+		if err := db.Create(&obj).Error; err != nil {
+			return fmt.Errorf("failed to insert obj %v: %w", obj.ObjTitle, err)
+		}
+	}
 	return nil
 }

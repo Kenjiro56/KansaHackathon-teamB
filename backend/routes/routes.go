@@ -18,4 +18,12 @@ func DefineRoutes(r gin.IRouter) {
 		auth.GET("/select", nextConnect.TestNext)
 		auth.POST("/insert", nextConnect.TestNext2)
 	}
+
+	obj := r.Group("/obj")
+	{
+		obj.POST("/add", controller.CreateObj)
+		obj.GET("/getAll", controller.GetAll)
+		obj.GET(":id", controller.GetSingleObj)
+		obj.DELETE("/deleteObj/:id", controller.DeleteObj)
+	}
 }
