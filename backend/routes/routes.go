@@ -25,6 +25,7 @@ func DefineRoutes(r gin.IRouter) {
 		obj.GET("/getAll", controller.GetAll)
 		obj.GET(":id", controller.GetSingleObj)
 		obj.DELETE("/deleteObj/:id", controller.DeleteObj)
+		obj.PUT("/update/:id", controller.UpdateObj)
 	}
 
 	// AI関連のエンドポイント
@@ -34,5 +35,14 @@ func DefineRoutes(r gin.IRouter) {
 		ai.GET("/goal", controller.GenerateGoalTasks)
 		// 相談内容に対するフィードバック
 		ai.GET("/consultation", controller.ConsultationFeedback)
+	}
+
+	todo := r.Group("/todo")
+	{
+		todo.POST("/", controller.CreateTodo)
+		todo.GET("/getAll", controller.GetTodos)
+		todo.GET("/:id", controller.GetTodo)
+		todo.PUT("/update/:id", controller.UpdateTodo)
+		todo.DELETE("/delete/:id", controller.DeleteTodo)
 	}
 }
