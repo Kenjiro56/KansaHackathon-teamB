@@ -52,4 +52,4 @@ const Resister = () => {
   );
 }
 
-export default Auth;
+export default Resister;

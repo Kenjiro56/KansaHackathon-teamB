@@ -10,7 +10,7 @@ const Auth = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="flex space-x-8 p-8 bg-white shadow-md rounded-md">
+      <div className="flex space-x-8 p-8 bg-white shadow-lg rounded-lg">
         <div>
           <Image
             src="/sample.png"
@@ -18,10 +18,10 @@ const Auth = () => {
             objectFit="cover"
             width={256}
             height={256}
+            className="rounded-lg bg-gray-300"
           />
         </div>
-        <div>
-            <>
+        <div className="flex flex-col space-y-4">
             <LoginInput
               id = "email"
               onChange = {(event:any) => setEmail(event.target.value)}
@@ -38,14 +38,18 @@ const Auth = () => {
             />
             <button
               onClick = {() => {console.log(email);}}
-              className="w-full py-2 mt-4 text-white bg-green-300 rounded-md hover:bg-green-400"
-            >ログイン</button>
-            <button
-              onClick = {() => console.log('新規登録')}
+              className="w-full py-2 text-white bg-teal-400 rounded-full hover:bg-teal-500"
             >
-              新規会員登録はこちら
+              ログイン
             </button>
-            </>
+            <p
+            className="mt-2 text-center text-sm text-gray-500 cursor-pointer"
+            onClick={() => console.log('新規登録')}
+            >
+            新規会員登録はこちら
+            </p>
+
+
         </div>
       </div>
     </div>

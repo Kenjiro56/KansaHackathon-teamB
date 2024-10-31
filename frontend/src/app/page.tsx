@@ -1,11 +1,13 @@
 import React from 'react';
 import ApiButtons from './components/testWid';
+import Auth from './components/auth';
 
 const Home: React.FC = () => {
     return (
         <>
-            <h1>API呼び出しテスト</h1>
-            <ApiButtons />
+            {/* <h1>API呼び出しテスト</h1>
+            <ApiButtons /> */}
+            <Auth />
         </>
     );
 };
