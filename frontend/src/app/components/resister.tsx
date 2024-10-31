@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import LoginInput from './input';
 import Image from 'next/image';
 
-const Auth = () => {
+const Resister = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -39,11 +39,11 @@ const Auth = () => {
             <button
               onClick = {() => {console.log(email);}}
               className="w-full py-2 mt-4 text-white bg-green-300 rounded-md hover:bg-green-400"
-            >ログイン</button>
+            >新規登録</button>
             <button
-              onClick = {() => console.log('新規登録')}
+              onClick = {() => console.log('ログイン画面へ！')}
             >
-              新規会員登録はこちら
+              既に会員の方はこちら
             </button>
             </>
         </div>
