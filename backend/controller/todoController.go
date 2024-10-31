@@ -10,6 +10,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type UpdateTodoInput struct {
+	TodoTitle   *string `json:"todo_title"`
+	Status      *bool   `json:"status"`
+	Progress    *int    `json:"progress"`
+	MaxProgress *int    `json:"max_progress"`
+	DeleteFlag  *bool   `json:"delete_flag"`
+}
+
 // CreateTodo - 新しいTodoを作成する
 func CreateTodo(c *gin.Context) {
 	var todo models.Todo
@@ -65,37 +73,45 @@ func GetTodos(c *gin.Context) {
 
 // UpdateTodo - 指定されたIDのTodoを更新する
 func UpdateTodo(c *gin.Context) {
-	idParam := c.Param("id")
-	id, err := strconv.Atoi(idParam)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-		return
-	}
+	id := c.Param("id")
 
+	// URLパラメータで指定されたIDのTodoを取得
 	var todo models.Todo
-	// Todoが存在するか確認
 	if err := db.DB.First(&todo, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Todo not found"})
 		return
 	}
 
-	// リクエストボディから更新内容を取得
-	var todoUpdate models.Todo
-	if err := c.ShouldBindJSON(&todoUpdate); err != nil {
+	// リクエストボディから更新データを取得
+	var input UpdateTodoInput
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// フィールドの更新
-	todo.Status = todoUpdate.Status
-	todo.Progress = todoUpdate.Progress
-	todo.MaxProgress = todoUpdate.MaxProgress
-	todo.DeleteFlag = todoUpdate.DeleteFlag
+	// フィールドごとに存在するかどうかを確認し、存在する場合のみ更新
+	if input.TodoTitle != nil {
+		todo.TodoTitle = *input.TodoTitle
+	}
+	if input.Status != nil {
+		todo.Status = *input.Status
+	}
+	if input.Progress != nil {
+		todo.Progress = *input.Progress
+	}
+	if input.MaxProgress != nil {
+		todo.MaxProgress = *input.MaxProgress
+	}
+	if input.DeleteFlag != nil {
+		todo.DeleteFlag = *input.DeleteFlag
+	}
+
+	// UpdatedAt フィールドを現在の時間に更新
 	todo.UpdatedAt = time.Now()
 
 	// データベースに保存
 	if err := db.DB.Save(&todo).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update Todo"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update todo"})
 		return
 	}
 
