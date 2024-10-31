@@ -1,6 +1,5 @@
 // app/setTodo/page.tsx
 
-import Auth from '@/app/components/auth';
 import React from 'react';
 import SearchBar from './components/searchBar';
 

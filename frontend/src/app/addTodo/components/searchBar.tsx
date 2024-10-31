@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import SendIcon from '@/assets/icons/send_button2.png';
 
 const SearchBar: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
@@ -21,10 +20,10 @@ const SearchBar: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        body: JSON.stringify({ // 送信するデータをここで設定
           user_id: 1,
           obj_title: inputValue,
-        }), // 送信するデータをここで設定
+        }),
       });
 
       if (response.ok) {
