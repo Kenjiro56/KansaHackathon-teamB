@@ -12,6 +12,7 @@ func DefineRoutes(r gin.IRouter) {
 	auth := r.Group("/")
 	{
 		auth.POST("/signup", controller.CreateUser)
+		auth.POST("/login", controller.Login)
 		auth.GET("/allusers", controller.GetUsers)
 		auth.GET("/user/:id", controller.GetUser)
 		auth.DELETE("/deleteuser/:id", controller.DeleteUser)
