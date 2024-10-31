@@ -20,6 +20,10 @@ func CreateObj(c *gin.Context) { //objの作成
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Object created successfully",
+		"data":    obj, // 作成されたオブジェクトをレスポンスとして含める
+	})
 }
 
 // default
