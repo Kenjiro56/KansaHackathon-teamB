@@ -3,6 +3,7 @@ package controller
 import (
 	"KansaiHack-Friday/db"
 	"KansaiHack-Friday/models"
+	"KansaiHack-Friday/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,14 @@ func CreateUser(c *gin.Context) { //ユーザーの作成
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	//この下でハッシュ化をしてる
+	hash, err := utils.HashPassword(user.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		return
+	}
+	user.Password = hash
+
 	if err := db.DB.Create(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
