@@ -1,7 +1,9 @@
 'use client';
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'; // 修正点
 import ObjCard from '@/app/home/components/card'
 import AddCard from '@/app/home/components/addCard'
+import AddCardButton from '@/app/home/components/addCardButton';
 
 const page = () => {
   const dummyData = [
@@ -23,6 +25,7 @@ const page = () => {
     { id: 8, title: '目標8を達成したい！' },
   ];
 
+  const router = useRouter();
   const [cardData, setCardData] = useState<{ id: number; title: string }[]>([]);
 
   useEffect(() => {
@@ -45,27 +48,27 @@ const page = () => {
     fetchData(); // 関数を呼び出してデータフェッチを行う
   }, []); // 空の依存配列により、コンポーネントがマウントされたときのみ実行されます
 
+  const handleNavigate = () => {
+    router.push('/addTodo');
+  };
 
   return (
     <div className="min-h-screen bg-gray-200 flex flex-col items-center py-8">
-      {/* タイトルとフィルタ */}
       <div className="text-center mb-6">
         <h1 className="text-lg font-semibold text-gray-700">すべて　未完了のみ　完了済み</h1>
       </div>
 
-      {/* カードを並べるグリッド */}
+      {/* カード並べてる */}
       <div className="grid grid-cols-3 gap-6 max-w-5xl">
         {cardData.map((card) => (
           <ObjCard key={card.id} title={card.title} />
         ))}
-        {/* 新しい目標を追加するためのボタン */}
-        <div className="flex justify-center items-center bg-gray-100 rounded-3xl h-32 w-64 border border-gray-300">
-          <span className="text-4xl text-gray-400">+</span>
-        </div>
+        {/* 新しい目標を追加するボタン */}
+        <AddCardButton onClick={handleNavigate}/>
       </div>
 
       {/* 目標を設定するボタン */}
-        <AddCard />
+        <AddCard onClick={handleNavigate}/>
     </div>
   )
 }
