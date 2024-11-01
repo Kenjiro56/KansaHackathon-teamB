@@ -31,29 +31,29 @@ const Auth = () => {
   const handleSubmit = async (e: FormEvent) =>{
     e.preventDefault();
 
-    try {
-      const response = await fetch('http://localhost:8080/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+  try {
+    const response = await fetch('http://localhost:8080/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
     });
+
+    if (!response.ok) {
+      // レスポンスがエラーの場合
+      throw new Error('Login failed');
+    }
 
     const jsondata = await response.json();
 
-    flg = jsondata.flg;
-    message = jsondata.message;
-
-    if(flg){
-      if("token" in jsondata){
-        localStorage.setItem('token', jsondata.token);
-        alert(message);
-      }
-    }else{
-      alert(message);
+    if ("token" in jsondata) {
+      localStorage.setItem('token', jsondata.token);
+      alert('ログイン成功');
+    } else {
+      alert('トークンが含まれていません');
     }
-  }catch(error){
+  } catch (error) {
     alert('ログイン失敗');
   }
   };

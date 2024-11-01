@@ -37,6 +37,7 @@ backend/*.out
 backend/*.test
 backend/*.mod
 backend/*.sum
+/backend/main
 
 # Goの依存ファイル（ビルド生成物以外）
 backend/vendor/
