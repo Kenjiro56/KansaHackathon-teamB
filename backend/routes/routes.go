@@ -33,9 +33,9 @@ func DefineRoutes(r gin.IRouter) {
 	ai := r.Group("/ai")
 	{
 		// 目標に対するフィードバック
-		ai.GET("/goal", controller.GenerateGoalTasks)
+		ai.POST("/goal", controller.GenerateGoalTasks)
 		// 相談内容に対するフィードバック
-		ai.GET("/consultation", controller.ConsultationFeedback)
+		ai.POST("/consultation", controller.ConsultationFeedback)
 	}
 
 	todo := r.Group("/todo")
