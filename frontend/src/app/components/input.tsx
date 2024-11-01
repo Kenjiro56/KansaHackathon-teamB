@@ -17,7 +17,7 @@ const LoginInput: React.FC<InputProps> = ({
     <div>
 
     <label
-      htmlFor={id}>
+      htmlFor={id} className="text-gray-700">
         {label}
       </label>
       <input
@@ -28,13 +28,13 @@ const LoginInput: React.FC<InputProps> = ({
         className="
         block
         rounded-md
+
         px-6
         pt-7
         pb-3
         w-full
         text-md
-        text-white
-
+        text-gray-900
         appearance-none
         focus:outline-none
         focus:ring-0

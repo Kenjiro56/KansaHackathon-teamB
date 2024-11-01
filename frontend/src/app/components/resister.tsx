@@ -14,38 +14,37 @@ const Resister = () => {
           <Image
             src="/sample.png"
             alt = "description"
-            objectFit="cover"
             width={256}
             height={256}
             className="rounded-lg bg-gray-300"
           />
         </div>
         <div>
-            <>
-            <LoginInput
-              id = "email"
-              onChange = {(event:any) => setEmail(event.target.value)}
-              type = "email"
-              label = "Email"
-              value = {email}
-            />
-            <LoginInput
-              id = "password"
-              onChange = {(event:any) => setPassword(event.target.value)}
-              type = "password"
-              label = "password"
-              value = {password}
-            />
-            <button
-              onClick = {() => {console.log(email);}}
-              className="w-full py-2 mt-4 text-white bg-green-300 rounded-md hover:bg-green-400"
-            >新規登録</button>
-            <button
-              onClick = {() => console.log('ログイン画面へ！')}
-            >
-              既に会員の方はこちら
-            </button>
-            </>
+            <form onSubmit={handleSubmit}>
+              <LoginInput
+                id = "email"
+                onChange = {(event:any) => setEmail(event.target.value)}
+                type = "email"
+                label = "Email"
+                value = {email}
+              />
+              <LoginInput
+                id = "password"
+                onChange = {(event:any) => setPassword(event.target.value)}
+                type = "password"
+                label = "password"
+                value = {password}
+              />
+              <button
+                onClick = {() => {console.log(email);}}
+                className="w-full py-2 mt-4 text-white bg-green-300 rounded-md hover:bg-green-400"
+              >新規登録</button>
+              <button
+                onClick = {() => console.log('ログイン画面へ！')}
+              >
+                既に会員の方はこちら
+              </button>
+            </form>
         </div>
       </div>
     </div>

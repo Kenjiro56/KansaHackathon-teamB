@@ -21,10 +21,10 @@ const Auth = () => {
   let message = '';
 
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
-    const { name, value } = event.currentTarget;
+    const { id, value } = event.currentTarget;
     setFormData({
       ...formData,
-      [name]: value,
+      [id]: value,
     });
   };
 
@@ -32,7 +32,7 @@ const Auth = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('localhost:8080/login', {
+      const response = await fetch('http://localhost:8080/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,6 @@ const Auth = () => {
           <Image
             src="/sample.png"
             alt = "description"
-            objectFit="cover"
             width={256}
             height={256}
             className="rounded-lg bg-gray-300"
