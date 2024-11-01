@@ -4,8 +4,7 @@ import LoginInput from './input';
 import Image from 'next/image';
 
 const Resister = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
 
 
   return (
@@ -18,6 +17,7 @@ const Resister = () => {
             objectFit="cover"
             width={256}
             height={256}
+            className="rounded-lg bg-gray-300"
           />
         </div>
         <div>
