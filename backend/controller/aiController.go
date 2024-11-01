@@ -45,7 +45,7 @@ func ConsultationFeedback(c *gin.Context) {
 	// AIからの応答を生成するためのロジック
 	messages := []APIConnect.ChatMessage{
 		{Role: "system", Content: "あなたはユーザーのTodo進捗における相談に答えるアシスタントです。"},
-		{Role: "user", Content: consultation + "という相談について助言をください。"},
+		{Role: "user", Content: consultation + "という相談についてToDoタスクを作成し直してください。"},
 	}
 
 	response, err := APIConnect.OpenAIAPI("gpt-3.5-turbo", messages)
@@ -53,7 +53,10 @@ func ConsultationFeedback(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"response": response})
+	// AIの応答を分割してリスト形式に整形
+	tasks := parseResponseToTasks(response)
+
+	c.JSON(http.StatusOK, gin.H{"tasks": tasks})
 }
 
 // parseResponseToTasks はAIの応答をリスト形式に変換する
