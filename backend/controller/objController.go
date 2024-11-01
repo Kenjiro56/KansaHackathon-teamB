@@ -4,10 +4,16 @@ import (
 	"KansaiHack-Friday/db"
 	"KansaiHack-Friday/models"
 	"net/http"
-	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
+
+type UpdateObjInput struct {
+	ObjTitle   *string `json:"obj_title"`
+	Progress   *int    `json:"progress"`
+	DeleteFlag *bool   `json:"delete_flag"`
+}
 
 func CreateObj(c *gin.Context) { //objの作成
 	// 追加する際にuserが存在するかどうかのチェックを入れたい！！
@@ -20,6 +26,10 @@ func CreateObj(c *gin.Context) { //objの作成
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Object created successfully",
+		"data":    obj, // 作成されたオブジェクトをレスポンスとして含める
+	})
 }
 
 // default
@@ -54,36 +64,39 @@ func DeleteObj(c *gin.Context) {
 
 // UpdateObj は Obj データを更新するコントローラーです
 func UpdateObj(c *gin.Context) {
-	// URLからIDを取得して、uintに変換
-	idParam := c.Param("id")
-	id, err := strconv.Atoi(idParam)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
-		return
-	}
+	id := c.Param("id")
 
-	// 更新内容をリクエストから取得
-	var objUpdate models.Obj
-	if err := c.ShouldBindJSON(&objUpdate); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	// DBから対象のObjを検索
+	// URLパラメータで指定されたIDのObjを取得
 	var obj models.Obj
 	if err := db.DB.First(&obj, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Obj not found"})
 		return
 	}
 
-	// 更新内容を設定
-	obj.ObjTitle = objUpdate.ObjTitle
-	obj.Progress = objUpdate.Progress
-	obj.DeleteFlag = objUpdate.DeleteFlag
+	// リクエストボディから更新データを取得
+	var input UpdateObjInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	// データベースで更新
+	// フィールドごとに存在するかどうかを確認し、存在する場合のみ更新
+	if input.ObjTitle != nil {
+		obj.ObjTitle = *input.ObjTitle
+	}
+	if input.Progress != nil {
+		obj.Progress = *input.Progress
+	}
+	if input.DeleteFlag != nil {
+		obj.DeleteFlag = *input.DeleteFlag
+	}
+
+	// UpdatedAt フィールドを現在の時間に更新
+	obj.UpdatedAt = time.Now()
+
+	// データベースに保存
 	if err := db.DB.Save(&obj).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update Obj"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update obj"})
 		return
 	}
 
