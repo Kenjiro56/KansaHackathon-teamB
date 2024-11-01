@@ -17,24 +17,59 @@ const SearchBar: React.FC = () => {
     console.log('Input Value:', inputValue);
     // ここでinputValueを使って他の処理を実行できます
     try {
-      const response = await fetch("http://localhost:8080/obj/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ // 送信するデータをここで設定
-          user_id: 1,
-          obj_title: inputValue,
+      const [obj_response, goal_response] = await Promise.all([
+        fetch("http://localhost:8080/obj/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ // 送信するデータをここで設定
+            user_id: 1,
+            obj_title: inputValue,
+          }),
         }),
-      });
+        fetch("http://localhost:8080/ai/goal", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ // 送信するデータをここで設定
+            goal: inputValue,
+          }),
+        }),
+      ]);
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Response from server:", data);
-        router.push('/home');
+      if (obj_response.ok) {
+        const obj_data = await obj_response.json();
+        console.log("Response from server:", obj_data);
       } else {
-        console.error("Failed to send data:", response.statusText);
+        console.error("Failed to send data:", obj_response.statusText);
       }
+
+      if (goal_response.ok) {
+        const goal_data = await goal_response.json();
+        console.log("Response from server:", goal_data);
+        router.push('/setTarget');
+      }
+      // const response = await fetch("http://localhost:8080/obj/add", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ // 送信するデータをここで設定
+      //     user_id: 1,
+      //     obj_title: inputValue,
+      //   }),
+      // });
+
+      // if (response.ok) {
+      //   const data = await response.json();
+      //   console.log("Response from server:", data);
+      //   // router.push('/home');
+      //   router.push('/setTarget');
+      // } else {
+      //   console.error("Failed to send data:", response.statusText);
+      // }
     } catch (error) {
       console.error("Error:", error);
     }
