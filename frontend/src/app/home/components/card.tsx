@@ -13,7 +13,7 @@ const Card: React.FC<CardProps> = ({ title }) => {
 
       <div className="mt-10 mb-4 flex flex-col items-center">
         <div className="bg-white rounded-full py-4 px-6 mb-6 shadow-md w-full text-center">
-          <p className="text-gray-700 font-semibold">{title}</p>
+          <p className="text-gray-700 font-semibold ellipsis">{title}</p>
         </div>
 
         <button className="bg-teal-300 text-gray-700 font-semibold rounded-full py-3 px-8 shadow-md">
