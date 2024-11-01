@@ -17,14 +17,11 @@ const Auth = () => {
     password: '',
   });
 
-  let flg = false;
-  let message = '';
-
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
-    const { id, value } = event.currentTarget;
+    const { name, value } = event.currentTarget;
     setFormData({
       ...formData,
-      [id]: value,
+      [name]: value,
     });
   };
 
@@ -36,6 +33,7 @@ const Auth = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify(formData),
     });
@@ -75,14 +73,14 @@ const Auth = () => {
         <div className="flex flex-col space-y-4">
           <form onSubmit={handleSubmit}>
             <LoginInput
-              id = "email"
+              name = "email"
               onChange = {handleChange}
               type = "email"
               label = "Email"
               value = {formData.email}
             />
             <LoginInput
-              id = "password"
+              name = "password"
               onChange = {handleChange}
               type = "password"
               label = "password"
