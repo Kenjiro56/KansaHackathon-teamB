@@ -2,29 +2,22 @@
 import { useCallback, useState, FormEvent } from 'react';
 import LoginInput from './input';
 import Image from 'next/image';
+import { useAuth } from '@/components/AuthContext';
 
 const Auth = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-
-
-
-
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
 
-  let flg = false;
-  let message = '';
+  const { isAuthenticated, login } = useAuth();
 
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
-    const { id, value } = event.currentTarget;
+    const { name, value } = event.currentTarget;
     setFormData({
       ...formData,
-      [id]: value,
+      [name]: value,
     });
   };
 
@@ -46,12 +39,13 @@ const Auth = () => {
     }
 
     const jsondata = await response.json();
+    const { flg, message, token } = jsondata;
 
-    if ("token" in jsondata) {
-      localStorage.setItem('token', jsondata.token);
-      alert('ログイン成功');
-    } else {
-      alert('トークンが含まれていません');
+    if (flg && token ){
+      login(token);
+      console.log(message);
+    }else{
+      console.log(message);
     }
   } catch (error) {
     alert('ログイン失敗');
@@ -62,6 +56,7 @@ const Auth = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      { !isAuthenticated ?(
       <div className="flex space-x-8 p-8 bg-white shadow-lg rounded-lg">
         <div>
           <Image
@@ -75,14 +70,14 @@ const Auth = () => {
         <div className="flex flex-col space-y-4">
           <form onSubmit={handleSubmit}>
             <LoginInput
-              id = "email"
+              name = "email"
               onChange = {handleChange}
               type = "email"
               label = "Email"
               value = {formData.email}
             />
             <LoginInput
-              id = "password"
+              name = "password"
               onChange = {handleChange}
               type = "password"
               label = "password"
@@ -101,9 +96,13 @@ const Auth = () => {
             新規会員登録はこちら
             </p>
 
-
         </div>
       </div>
+      ) : (
+        <div>
+          <p>ログイン済みです</p>
+        </div>
+      )}
     </div>
   );
 }

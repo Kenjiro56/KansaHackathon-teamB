@@ -1,5 +1,5 @@
 interface InputProps {
-  id: string;
+  name: string;
   onChange: any;
   value: string;
   label: string;
@@ -7,7 +7,7 @@ interface InputProps {
 }
 
 const LoginInput: React.FC<InputProps> = ({
-  id,
+  name,
   onChange,
   value,
   label,
@@ -17,11 +17,11 @@ const LoginInput: React.FC<InputProps> = ({
     <div>
 
     <label
-      htmlFor={id} className="text-gray-700">
+      htmlFor={name} className="text-gray-700">
         {label}
       </label>
       <input
-        id={id}
+        name={name}
         type={type}
         value={value}
         onChange={onChange}
