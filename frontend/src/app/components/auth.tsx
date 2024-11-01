@@ -4,13 +4,6 @@ import LoginInput from './input';
 import Image from 'next/image';
 
 const Auth = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-
-
-
-
 
   const [formData, setFormData] = useState({
     email: '',
@@ -33,7 +26,6 @@ const Auth = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
       },
       body: JSON.stringify(formData),
     });
