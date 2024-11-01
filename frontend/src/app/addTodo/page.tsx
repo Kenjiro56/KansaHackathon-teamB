@@ -8,8 +8,7 @@ import { useRouter } from 'next/navigation'; // 修正点
 const AddTodoPage: React.FC = () => {
   const router = useRouter();
   const handleBack = () => {
-    // router.push('/home');
-    router.push('/setTarget'); // 修正点
+    router.push('/home');
   }
   return (
     <div className='min-h-screen bg-gray-500 h-screen flex flex-col items-center justify-center space-y-20'>
