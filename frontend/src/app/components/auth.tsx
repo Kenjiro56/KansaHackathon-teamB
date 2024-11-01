@@ -2,6 +2,7 @@
 import { useCallback, useState, FormEvent } from 'react';
 import LoginInput from './input';
 import Image from 'next/image';
+import { useAuth } from '@/components/AuthContext';
 
 const Auth = () => {
 
@@ -9,6 +10,8 @@ const Auth = () => {
     email: '',
     password: '',
   });
+
+  const { isAuthenticated, login } = useAuth();
 
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
@@ -36,12 +39,13 @@ const Auth = () => {
     }
 
     const jsondata = await response.json();
+    const { flg, message, token } = jsondata;
 
-    if ("token" in jsondata) {
-      localStorage.setItem('token', jsondata.token);
-      alert('ログイン成功');
-    } else {
-      alert('トークンが含まれていません');
+    if (flg && token ){
+      login(token);
+      console.log(message);
+    }else{
+      console.log(message);
     }
   } catch (error) {
     alert('ログイン失敗');
@@ -52,6 +56,7 @@ const Auth = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      { !isAuthenticated ?(
       <div className="flex space-x-8 p-8 bg-white shadow-lg rounded-lg">
         <div>
           <Image
@@ -91,9 +96,13 @@ const Auth = () => {
             新規会員登録はこちら
             </p>
 
-
         </div>
       </div>
+      ) : (
+        <div>
+          <p>ログイン済みです</p>
+        </div>
+      )}
     </div>
   );
 }
