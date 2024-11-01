@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation'; // 修正点
 
 const SearchBar: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
+  const router = useRouter();
 
   // 入力が変更されたときに呼び出される関数
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +31,7 @@ const SearchBar: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Response from server:", data);
+        router.push('/home');
       } else {
         console.error("Failed to send data:", response.statusText);
       }

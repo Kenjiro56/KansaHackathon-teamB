@@ -25,3 +25,13 @@ body {
     text-wrap: balance;
   }
 }
+
+.shadow-bottom {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
